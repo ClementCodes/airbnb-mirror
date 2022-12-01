@@ -57,8 +57,8 @@ class Ad
      *  @Assert\Length(
      *      min = 20,
      *      max = 555,
-     *      minMessage = "Votre introduction doit faire au minimum {{ limit }} caractères ",
-     *      maxMessage = "Votre introduction doit faire au max max max  {{ limit }} caractères"
+     *      minMessage = "Votre introduction doit faire au minimum { limit } caractères ",
+     *      maxMessage = "Votre introduction doit faire au max max max  { limit } caractères"
      * )
      */
     private $introduction;
@@ -91,6 +91,12 @@ class Ad
      */
     private $images;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ads")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -107,7 +113,6 @@ class Ad
      * 
      * @return  void
      */
-
 
     public function  initializeSlug()
     {
@@ -232,6 +237,18 @@ class Ad
                 $image->setAd(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

@@ -1,7 +1,17 @@
 security:
+    # un encoder sert a definir sur quelle entité decoder en focntion du type d'entité  qu'on lui donne car ne focntion d'une entité un algorytme peut etre different
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+
+    # un porvider est un fournissuer comme son nom l 'indique en anglais qui  sert a symfony de savoir ou se situe les données a recuperer ici se sont des données  de l'utilisateurs avec sa property email
     providers:
         users_in_memory: { memory: null }
+        in_database:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
