@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Modification d'une annonce
+{% endblock %}
+
+
+{# rapppel le form thme est la pour identifiet le formulaire sur lequel opn travaille #}
+{% form_theme form _self %}
+{% block body %}
+
+
+	<div class="container">
+
+		<h1>Modifier l'annonce :{{ad.title}}</h1>
+
+		{{form_start(form)}}
+		{{form_widget(form)}}
+
+
+		<button class="btn btn-primary mt-3" type="submit">Modifier l'annonce
+		</button>
+		{{form_end(form)}}
+	</div>
+
+{% endblock %}
+
+{% form_theme form 'ad/_collection.html.twig' %}
+
+
+{% block javascripts %}
+
+
+	<script src="/js/ad.js"></script>
+{% endblock %}

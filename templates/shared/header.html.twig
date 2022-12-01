@@ -34,7 +34,7 @@
 {# {{ dump(app.flashes) }} #}
 
 	{% for label , messages in app.flashes %}
-		<div class="container"> <div class="alert alert-{{label}}">
+		<div class="container"> <div class="alert alert-{{label}}" style="color:black">
 
 			{% for message in messages %}
 				<p>{{message |raw}}</p>

@@ -7,13 +7,19 @@ namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
 use App\Repository\AdRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AdRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @UniqueEntity(fields={"title"};
+ *  message="This port is already in use on that host)
  */
 class Ad
 {
@@ -25,7 +31,14 @@ class Ad
     private $id;
 
     /**
+
      * @ORM\Column(type="string", length=255)
+     *   @Assert\Length(
+     *      min = 10,
+     *      max = 255,
+     *      minMessage = "Votre titre doit faire au minimum {{ limit }} caractères",
+     *      maxMessage = "Votre titre doit fair eau max max max  {{ limit }} caractères"
+     * )
      */
     private $title;
 
@@ -41,11 +54,23 @@ class Ad
 
     /**
      * @ORM\Column(type="text")
+     *  @Assert\Length(
+     *      min = 20,
+     *      max = 555,
+     *      minMessage = "Votre introduction doit faire au minimum {{ limit }} caractères ",
+     *      maxMessage = "Votre introduction doit faire au max max max  {{ limit }} caractères"
+     * )
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     *  @Assert\Length(
+     *      min = 100,
+     *      max = 555,
+     *      minMessage = "Votre introduction doit faire au minimum {{ limit }} caractères ",
+     *      maxMessage = "Votre introduction doit faire au max max max  {{ limit }} caractères"
+     * )
      */
     private $content;
 
@@ -61,6 +86,8 @@ class Ad
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="ad", orphanRemoval=true)
+     * 
+     * @Assert\Valid()
      */
     private $images;
 
@@ -75,7 +102,6 @@ class Ad
      * Permet d'initialiser le slug 
      * avant que ce soit pêrsisté
      * avant sa mise à jour 
-     * 
      * @ORM\PrePersist
      * @ORM\PreUpdate
      * 

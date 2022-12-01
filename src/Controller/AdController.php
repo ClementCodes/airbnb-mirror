@@ -46,31 +46,29 @@ class AdController extends AbstractController
         //handle request gere les donne de la requete dans le formualire recupéré
         $form->handleRequest($request);
 
-
-        $this->addFlash(
-            "succes",
-            " l'annonce <strong> {{$ad->getTitle()}}</strong>a bien été enregistrée  !"
-        );
-
-
-        // $this->addFlash(
-        //     "succes",
-        //     " deuixeme flash"
-        // );
-
-        // $this->addFlash(
-        //     "danger",
-        //     "Message d'erreur"
-        // );
-
         if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($ad->getImages() as $image) {
+
+                $image->setAd($ad);
+                $manager->persist(($image));
+            }
+
+
             $manager->persist($ad);
             $manager->flush();
 
+
+            $this->addFlash(
+                "succes",
+                " l'annonce <strong> {$ad->getTitle()}</strong>a bien été créé  !"
+            );
             return   $this->redirectToRoute("ads_show", [
                 'slug' => $ad->getSlug()
             ]);
         }
+
+
 
         return $this->render('ad/new.html.twig', [
 
@@ -79,6 +77,47 @@ class AdController extends AbstractController
     }
 
 
+    /**
+     * 
+     * Permet d'afficher le formulaire d'edition
+     * @Route("/ads/{slug}/edit", name="ads_edit")
+     * @return Response
+     */
+    public function edit(Ad $ad, Request $request, EntityManagerInterface $manager)
+    {
+        $form = $this->createForm(AdType::class, $ad);
+
+        //handle request gere les donnée de la requete dans le formualire recupéré
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($ad->getImages() as $image) {
+
+                $image->setAd($ad);
+                $manager->persist(($image));
+            }
+
+
+            $manager->persist($ad);
+            $manager->flush();
+
+            $this->addFlash(
+                "succes",
+                " <h1> l'annonce <strong> {$ad->getTitle()}</strong>a bien été modifiée  !</h1>"
+            );
+
+            return   $this->redirectToRoute("ads_show", [
+                'slug' => $ad->getSlug()
+            ]);
+        }
+
+        return $this->render('ad/edit.html.twig', [
+            //ici rappel c'est ici quie l 'on passe les variable a la view
+            'form' => $form->createView(),
+            "ad" => $ad
+        ]);
+    }
     /**
      * 
      * Permet d'afficher une seule annonce

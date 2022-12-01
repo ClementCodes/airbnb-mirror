@@ -16,37 +16,45 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class AdType extends AbstractType
 {
 
-
+    //pour rappel mettre une ption par defaut comme $options pour pouvoir avoir une focntion avec duex parametre sou un seul parametre
     /**
      * Permet d'avoir la configuration de base d'un champ de texte 
      
      * @param string $label
      * @param string $placeholder
+     * @param array $otpions
+     *  
      * @return  array
      */
-    public function getConfiguration($label, $placeholder)
+    public function getConfiguration($label, $placeholder, $options  = [])
     {
-        return [
+        return array_merge([
             "label" => $label,
             "attr" => [
                 'placeholder' =>  $placeholder
             ]
-        ];
+        ], $options);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class, [
-                "label" => 'Titre',
-                "attr" => [
-                    'placeholder' => "tapez un sur titre pour votre annonce  ! "
-                ],
-            ])
+            ->add(
+                'title',
+                TextType::class,
+                [
+                    "label" => 'Titre',
+                    "attr" => [
+                        'placeholder' => "tapez un sur titre pour votre annonce  ! "
+                    ],
+                ]
+            )
             ->add(
                 'slug',
                 TextType::class,
-                $this->getConfiguration("Adresse web", "Tapez l'adresse web (automatique)")
+                $this->getConfiguration("Adresse web", "Tapez l'adresse web (automatique)", [
+                    "required" => false
+                ])
             )
             ->add('price', MoneyType::class, $this->getConfiguration("price", "Indiquez votre prix !"))
             ->add('introduction', TextType::class, $this->getConfiguration("Introduction", "Donnez une description globale de  l'annonce"))
@@ -66,7 +74,8 @@ class AdType extends AbstractType
 
                     // la notion dentry (d'entrée ) represente un element de la collection (ici un sous formulaire)
                     'entry_type' => ImageType::class,
-                    'allow_add' => true
+                    'allow_add' => true,
+                    'allow_delete' => true,
 
                 ]
             );

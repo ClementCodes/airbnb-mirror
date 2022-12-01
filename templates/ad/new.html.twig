@@ -4,7 +4,7 @@
 {% endblock %}
 
 
-{% form_theme form _self %}
+{% form_theme form 'ad/_collection.html.twig' %}
 {% block body %}
 
 	<div class="container">
@@ -28,97 +28,9 @@ Adtype.php qui est lié avec le add de nom images voir le fichier avec le commen
 2)De plus le form widget en dessous ne represnete que le formualire ad car on est dans le block ad_image_widget
 3) le tag form_theme permet d indiquer un theme specifique ^pour un formulaire qui est la configuration de notre form ad dans le adType  qui parce qu il aest dans le bloc ad_imagge docn c'est pouyr faire le lien 
  #}
-{% block _ad_images_widget %}
-	<p>
-		ici voys pouvez ajouter vos propres images  !
-	</p>
-	{{form_widget(form)}}
-	<div class="form-group">
-		<button type="button" id="add-image" class="btn btn-primary">Ajouter une image frero de la vega !</button>
-	</div>
-{% endblock %}
-{% block _ad_images_entry_widget_row %}
-
-	{{form_widget(form)}}
-
-
-{% endblock %}
-
-
-{# //rappel les entry sous les sous affichages des formualaires// #}
-
-
-{% block _ad_images_entry_widget %}
-
-	{# ici le block id est l'id que l on recuperer dnas l input selectionnné #}
-	<div class="form-group" id="block_{{id}}">
-		<div class="row">
-			<div class="col-10">
-				<div class="row">
-					<div class="col">
-						{{form_widget(form.url)}}
-					</div>
-					<div class="col">
-						{{form_widget(form.caption)}}
-					</div>
-				</div>
-			</div>
-
-			<div
-				class="col-2">
-				{#  data-target  qui cible l'id en haut du form group et le data action avec delete  que l'on retrouvera plus tard avec la function dans le script handleDeletebuttons#}
-				<button data-action="delete" data-target="#block_{{id}}" type="button" class="btn btn-danger">X</button>
-			</div>
-		</div>
-	</div>
-{% endblock %}
-
 
 {% block javascripts %}
 
 
-	<script>
-		// je recupere le numero des futurs champs que je vais créer
-
-$("#add-image").click(function () {
-
-
-let index = $('#ad_images div.form-group').length;
-
-
-// je recupere le prototype des entrees
-
-const tmpl = $('#ad_images').data('prototype').replace(/__name__/g, index);
-
-// console.log(tmpl)
-
-// j'injecte ce code au sein de la div
-$('#ad_images').append(tmpl);
-
-
-// je gere le boutton supprimer
-handleDeletebuttons();
-});
-
-
-function handleDeletebuttons() {
-
-
-$('button[data-action="delete"]').click(function () { // rappel en javascript le this correspond a l evenement du scope de la fonction soit ici le click sur le button
-const target = this.dataset.target
-console.log(target)
-
-$(target).remove();
-});
-
-
-}
-
-
-// ici je rerajoute le handledeletebutton car sur des futures pages il y ejn aura de créer il faudra donc que cette option soit dispobible pour les photos entendues par default
-handleDeletebuttons();
-
-	</script>
-
-
+	<script src="/js/ad.js"></script>
 {% endblock %}
