@@ -4,7 +4,7 @@ security:
         App\Entity\User:
             algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-
+    #notion de provider :: Ou symfony doit regarder pour trouver des utilisateurs 
     # un porvider est un fournissuer comme son nom l 'indique en anglais qui  sert a symfony de savoir ou se situe les données a recuperer ici se sont des données  de l'utilisateurs avec sa property email
     providers:
         users_in_memory: { memory: null }
@@ -17,8 +17,17 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
-            provider: users_in_memory
+            anonymous: true
+            
+            provider: in_database
+
+            form_login:
+                login_path: account_login 
+                check_path: account_login
+                
+            logout:
+                path: account_logout
+                target: account_login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

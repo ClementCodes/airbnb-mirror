@@ -9,10 +9,17 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * 
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"email"},
+ *  message="This email  is already in use on that bd please do better motherfucker")
  */
 class User implements UserInterface
 {
@@ -25,36 +32,57 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez enseigner votre prenom pas le nom !!! hunnn dominique ")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom valide c'est pourtant pas complqué ! ")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *@Assert\Email(message="Veuillez renseigner un email valide  ! ")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *@Assert\Url(message="Veuillez renseigner une url valide pour votre avatar (phot de profil)  ! ")
      */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
     private $hash;
 
+
+
+    /**
+     * Undocumented variable
+     *
+     * @Assert\EqualTo(propertyPath="hash"  , message="vous n'avez pas corectement copnfirmé votre mot de passe")
+     */
+    public $passwordConfirm;
+
     /**
      * @ORM\Column(type="string", length=255)
+     *@Assert\Length(min=10 , minMessage ="votre introduction doit faire au moins 10 caractères")
+     * 
      */
+
+
+
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     *@Assert\Length(min=200 , minMessage ="votre introduction doit faire au moins 100 caractères")
+     * 
      */
     private $description;
 

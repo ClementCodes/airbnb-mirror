@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Ap\Form\ApplicationType;
 use App\Entity\Ad;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -13,28 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdType extends AbstractType
+class AdType extends ApplicationType
 {
 
-    //pour rappel mettre une ption par defaut comme $options pour pouvoir avoir une focntion avec duex parametre sou un seul parametre
-    /**
-     * Permet d'avoir la configuration de base d'un champ de texte 
-     
-     * @param string $label
-     * @param string $placeholder
-     * @param array $otpions
-     *  
-     * @return  array
-     */
-    public function getConfiguration($label, $placeholder, $options  = [])
-    {
-        return array_merge([
-            "label" => $label,
-            "attr" => [
-                'placeholder' =>  $placeholder
-            ]
-        ], $options);
-    }
+
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

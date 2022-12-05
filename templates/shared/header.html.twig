@@ -4,6 +4,8 @@
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
+
+		{# rapple La variable globale App contient des informaitons sur l appliction , y compris sur l'utilisateur#}
 		<div class="collapse navbar-collapse" id="navbarColor02">
 			<ul class="navbar-nav me-auto">
 				<li class="nav-item">
@@ -19,11 +21,29 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item">
-					<a class="nav-link active" href="{{ path('ads_create') }}">Mon compte !
-						<span class="visually-hidden">(current)</span>
-					</a>
-				</li>
+
+
+				{% if app.user %}
+
+
+					<li class="nav-item">
+
+						<a href="{{ path("account_logout") }}" class="nav-link">Deconnexion</a>
+					</li>
+
+				{% else %}
+					<li class="nav-item">
+
+						<a href="{{ path("account_register") }}" class="nav-link">Inscription
+						</a>
+					</li>
+					<li class="nav-item">
+
+						<a href="{{ path("account_login") }}" class="nav-link">Connexion</a>
+					</li>
+
+				{% endif %}
+
 			</ul>
 		</div>
 	</div>
