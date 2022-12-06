@@ -10,46 +10,7 @@
 		<div class="row">
 			{% for ad in ads %}
 
-				{% set url = path('ads_show',{'slug':ad.slug}) %}
-				<div class="col-md-4">
-					<div class="card bg-light mb-3">
-						<div class="card-header text-center">
-
-							{{ad.getRooms}}
-							chambres ,
-							<strong>{{ad.price}}</strong>&euro; / nuit
-							<br>
-							<small>pas encore noté</small>
-						</div>
-
-						<hr>
-						<div class="card-body">
-
-							<h4 class="card-title">
-
-								<a href="{{url}}" style=" text-decoration : none;">{{ad.title}}</a>
-
-
-							</h4>
-
-							<a href="{{url}}">
-								<img src="{{ad.coverImage}}" style="height: 200px;width:100%;display:block" alt="Image de l'appartement" class="float-left mr-3">
-							</a>
-							<p style="">
-								{{ad.introduction}}
-
-
-							</p>
-							<a href="{{url}}" style=" text-decoration : none;" class="btn btn-success float-right">
-
-								En savoir plus !
-
-
-							</a>
-						</div>
-
-					</div>
-				</div>
+				{% include "ad/_ad.html.twig" %}
 			{% endfor %}
 
 		</div>

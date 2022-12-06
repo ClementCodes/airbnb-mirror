@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -95,6 +96,16 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Ad::class, mappedBy="author")
      */
     private $ads;
+
+
+
+
+    public function FullName(): string
+    {
+
+
+        return $this->firstName  .  " " .  $this->lastName;
+    }
 
     /**
      * Permet d'initialiser le slug 

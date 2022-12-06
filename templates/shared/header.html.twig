@@ -16,19 +16,36 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link active" href="{{ path('ads_index') }}">Annonces !
-						<span class="visually-hidden">(current)</span>
+						<span class="visually-hidden">je sais pas
+						</span>
 					</a>
 				</li>
 			</ul>
-			<ul class="navbar-nav ml-auto">
-
-
+			<ul
+				class="navbar-nav ml-auto">
+				{# <li class="nav-item">
+																																																																					<a href="{{ path("account_logout") }}" class="nav-link">Deconnexion</a>
+																																																																				</li> #}
 				{% if app.user %}
 
 
-					<li class="nav-item">
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
 
-						<a href="{{ path("account_logout") }}" class="nav-link">Deconnexion</a>
+
+							<img src="{{app.user.picture}}" class="avatar avatar-mini" alt="avatar de {{app.user.fullName}}">{{app.user.fullName}}</a>
+
+						<div class="dropdown-menu dropdown-menu-right">
+
+
+							<a href="{{ path("ads_create") }}" class="dropdown-item" aria-labelledby="accountDropdownLink">Créer une annonce</a>
+							<a href="{{ path("account_index") }}" class="dropdown-item" aria-labelledby="accountDropdownLink">Mon compte</a>
+							<a href="{{ path("account_profile") }}" class="dropdown-item">Modifier mon porfil</a>
+							<div class="dropdown-divider"></div>
+							<a href="{{ path("account_logout") }}" class="dropdown-item">Deconnexion</a>
+						</div>
+
+
 					</li>
 
 				{% else %}
@@ -47,10 +64,7 @@
 			</ul>
 		</div>
 	</div>
-</nav>
-
-{# ici le dump permet de voir les differentes possibilites de l'app generale ici le app.flashes corresponds  au app.flashes crée dans le adController  #}
-{# {{ dump(app) }} #}
+</nav>{# ici le dump permet de voir les differentes possibilites de l'app generale ici le app.flashes corresponds  au app.flashes crée dans le adController  #}{# {{ dump(app) }} #}
 {# {{ dump(app.flashes) }} #}
 
 	{% for label , messages in app.flashes %}
