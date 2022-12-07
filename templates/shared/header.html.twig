@@ -24,8 +24,8 @@
 			<ul
 				class="navbar-nav ml-auto">
 				{# <li class="nav-item">
-																																																																					<a href="{{ path("account_logout") }}" class="nav-link">Deconnexion</a>
-																																																																				</li> #}
+																																																																																									<a href="{{ path("account_logout") }}" class="nav-link">Deconnexion</a>
+																																																																																								</li> #}
 				{% if app.user %}
 
 
@@ -33,24 +33,21 @@
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
 
 
-							<img src="{{app.user.picture}}" class="avatar avatar-mini" alt="avatar de {{app.user.fullName}}">{{app.user.fullName}}</a>
+							<img src="{{app.user.picture}}" class="avatar avatar-mini" alt="avatar de {{app.user.fullName}}">{{app.user.fullName}}
+						</a>
 
-						<div class="dropdown-menu dropdown-menu-right">
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
 
-
-							<a href="{{ path("ads_create") }}" class="dropdown-item" aria-labelledby="accountDropdownLink">Créer une annonce</a>
-							<a href="{{ path("account_index") }}" class="dropdown-item" aria-labelledby="accountDropdownLink">Mon compte</a>
+							<a href="{{ path("ads_create") }}" class="dropdown-item">Créer une annonce</a>
+							<div class="dropdown-divider"></div>
+							<a href="{{ path("account_index") }}" class="dropdown-item">Mon compte</a>
 							<a href="{{ path("account_profile") }}" class="dropdown-item">Modifier mon porfil</a>
 							<div class="dropdown-divider"></div>
 							<a href="{{ path("account_logout") }}" class="dropdown-item">Deconnexion</a>
 						</div>
-
-
 					</li>
-
 				{% else %}
 					<li class="nav-item">
-
 						<a href="{{ path("account_register") }}" class="nav-link">Inscription
 						</a>
 					</li>

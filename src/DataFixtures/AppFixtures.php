@@ -3,11 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Ad;
-use App\Entity\Image;
-use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\Role;
+use App\Entity\User;
+use App\Entity\Image;
+use App\Entity\Booking;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -24,7 +26,38 @@ class AppFixtures extends Fixture
     {
 
 
-        $faker = Factory::create(('Fr-fr'));
+        $faker = Factory::create(('fr_FR'));
+
+        //gestion des roles 
+
+
+        $adminRole = new Role();
+
+        $adminRole->setTitle('ROLE_ADMIN');
+        $manager->persist($adminRole);
+
+
+
+
+
+        $adminUser  = new User();
+        $adminUser
+            ->setFirstName('Clement')
+            ->setLastName('Dominique')
+            ->setEmail('mrdominiqueclement@gmail.com')
+            ->setHash($this->encoder->encodePassword($adminUser, "password"))
+            ->setPicture("http://www.scriptopolis.fr/wp-content/uploads/2015/07/tenuecorrecte.jpg")
+            ->setIntroduction($faker->sentence())
+            ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)) . "</p>")
+            ->addUserRole($adminRole);
+
+        $manager->persist($adminUser);
+
+
+
+
+
+
 
         //Gestions des Users
         $users = [];
@@ -86,6 +119,36 @@ class AppFixtures extends Fixture
                     ->setAd($ad);
 
                 $manager->persist($image);
+            }
+
+
+
+            //Gestions des reservations 
+
+
+            for ($j = 1; $j <= mt_rand(0, 10); $j++) {
+                $booking = new Booking();
+
+                $createdAt  = $faker->dateTimeBetween('-6 months');
+                $startDate = $faker->dateTimeBetween('-3 months');
+
+                $duration = mt_rand(3, 10);
+
+
+                $endDate = (clone $startDate)->modify("+$duration days");
+
+                $amount = $ad->getPrice()  * $duration;
+
+                $booker  = $users[mt_rand(0, count($users) - 1)];
+
+
+                $booking->setBooker($booker)
+                    ->setAd($ad)
+                    ->setStartDate($startDate)
+                    ->setEndDate($endDate)
+                    ->setCreatedAt($createdAt)
+                    ->setAmount($amount);
+                $manager->persist($booking);
             }
 
             $manager->persist($ad);
