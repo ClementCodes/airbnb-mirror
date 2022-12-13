@@ -2,11 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\BookingRepository;
+
+
+
+use App\Entity\Ad;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use App\Repository\BookingRepository;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+
 
 /**
- * @ORM\Entity(repositoryClass=BookingRepository::class)
+ * A licyclecallback est la pour gerer le cycle de vie : c'est a diure a diffemren evenement de son cycle d evie vie on a relié des focntions 
+ * @Entity(repositoryClass=BookingRepository::class)
+ * @HasLifecycleCallbacks()
  */
 class Booking
 {
@@ -48,6 +58,48 @@ class Booking
      * @ORM\Column(type="float")
      */
     private $amount;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
+
+
+
+    /**
+     * CallBack appele a chaque fois qu'on créé une résérvation
+     * @ORM\PrePersist
+     * @return void
+     */
+    public function prePersist()
+    {
+        # code...elle va dire si ma date de creatione st vide et bien this-> created adate devient un nouveau date time 
+
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+
+
+        if (empty($this->amount)) {
+            # code...prox de l'annonce * nombre d ejour ²²²²²   ²²
+
+
+            $this->amount = $this->ad->getPrice() * $this->getDuration();
+        }
+    }
+
+
+    public function getDuration()
+    {
+        # code...regarder docuementation pour avoir diff et days
+
+        $diff = $this->endDate->diff($this->startDate);
+
+
+        return $diff->days;
+    }
+
 
     public function getId(): ?int
     {
@@ -122,6 +174,18 @@ class Booking
     public function setAmount(float $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }

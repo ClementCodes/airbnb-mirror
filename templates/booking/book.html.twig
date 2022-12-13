@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réserver l'annonce :{{ad.title}}
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<h1>
+
+			Reservez pour l'annonce :
+			{{ad.title}}</h1>
+
+
+		<p>Vous etes sur le point de réserver le bien de
+			<strong>
+				{{ad.author.fullName}}</strong>,dites nous tout, ons'occupe du reste
+		</p>
+
+
+		{{form_start(form)}}
+
+		<div class="alert alert-light">
+
+
+			<h2>
+
+
+				Commencez par nous dire quelles sont les dates qui vous interessent !</h2>
+
+			<div class="row">
+				<div class="col">
+
+					{{form_row(form.startDate)}}</div>
+				<div class="col">
+
+					{{form_row(form.endDate)}}</div>
+
+			</div>
+		</div>
+
+		<h2 class="mb-5">Montantn de votre sejour :
+			<span id="amount mt-3"></span>&euro;
+																																																																																															...<span id="days">0nuits
+				{{ad.price}}</span>
+		</h2>
+
+		{{	form_row(form.comment)}}
+
+		<h2>vous avez terminé</h2>
+
+
+		<p>Preparez votre sejour avec nous ??</p>
+
+		<button type="submit">Reserv er</button>
+
+
+		{{	form_end(form)}}
+	</div>
+
+{% endblock %}
